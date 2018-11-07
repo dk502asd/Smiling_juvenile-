@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.offcn.mapper.UserMapper">
+	<select id="selectUser" resultType="User">
+		select u.* from user u
+		<trim prefix="where" prefixOverrides="and">
+			<if test="uname != null">
+				and u.uname = #{uname}
+			</if>
+		</trim>
+	</select>
+
+	<select id="selectAllUserByPage" resultType="User">
+		select * from user limit #{currentPageNo},#{pageSize}
+	</select>
+
+	<select id="selectCount" resultType="Integer">
+		select count(uname) from user
+	</select>
+	<insert id="addUser" parameterType="User">
+		insert into user (uname,upwd) values (#{uname},#{upwd})
+	</insert>
+	<select id="getUserById" resultType="User">
+		select * from user
+		<trim prefix="where" prefixOverrides="and">
+			<if test="uid != null">
+				and uid = #{uid}
+			</if>
+		</trim>
+	</select>
+	<update id="modifyUser" parameterType="User">
+		update user set uname = #{uname},upwd = #{upwd} where uid = #{uid}
+	</update>
+	<delete id="deleteUserById">
+		delete from user where uid = #{uid}
+	</delete>
+</mapper>
